@@ -39,7 +39,7 @@ public class SupplierServiceImpl implements SupplierService {
                 logger.warn("Supplier with id: " + id + " not found");
             }
 
-        return null;
+        return supplier;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class SupplierServiceImpl implements SupplierService {
         Optional<SupplierData> optional = supplierDataRepository.findById(id);
 
         if (optional.isPresent()) {
-            SupplierData originalSupplierData = new SupplierData();
+            SupplierData originalSupplierData = optional.get();
             originalSupplierData.setName(supplier.getName());
             originalSupplierData.setContactInfo(supplier.getContactInfo());
             originalSupplierData.setAddress(supplier.getAddress());

@@ -68,7 +68,7 @@ public class SupplierController {
 
     @PutMapping("api/supplier/{id}")
     public ResponseEntity<?> update(@PathVariable final int id, @RequestBody Supplier supplier) {
-        logger.info("Update Input >> " + supplier.toString());
+        logger.info("Update Input >> {}", supplier);
         HttpHeaders headers = new HttpHeaders();
         ResponseEntity<?> response;
 

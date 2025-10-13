@@ -34,12 +34,14 @@ public class ProductServiceImpl implements ProductService {
                 product.setName(productData.get().getName());
                 product.setDescription(productData.get().getDescription());
                 product.setPrice(productData.get().getPrice());
+                product.setCreated(productData.get().getCreated());
+                product.setLastUpdated(productData.get().getLastUpdated());
                 logger.info("Successfully found product with id: " + id);
             } else {
                 logger.warn("Product with id: " + id + " not found");
             }
 
-        return null;
+        return product;
     }
 
     @Override
@@ -57,6 +59,8 @@ public class ProductServiceImpl implements ProductService {
             product.setName(productData.getName());
             product.setDescription(productData.getDescription());
             product.setPrice(productData.getPrice());
+            product.setCreated(productData.getCreated());
+            product.setLastUpdated(productData.getLastUpdated());
             productList.add(product);
         }
 
@@ -79,10 +83,10 @@ public class ProductServiceImpl implements ProductService {
 
         logger.info("Product created with id: " + productData.getId());
         Product newProduct = new Product();
-        product.setId(productData.getId());
-        product.setName(productData.getName());
-        product.setDescription(productData.getDescription());
-        product.setPrice(productData.getPrice());
+        newProduct.setId(productData.getId());
+        newProduct.setName(productData.getName());
+        newProduct.setDescription(productData.getDescription());
+        newProduct.setPrice(productData.getPrice());
 
         return newProduct;
     }

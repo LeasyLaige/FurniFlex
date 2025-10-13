@@ -81,11 +81,11 @@ public class InventoryServiceImpl implements InventoryService {
 
         logger.info("Inventory created with id: " + inventoryData.getId());
         Inventory newInventory = new Inventory();
-        inventory.setId(inventoryData.getId());
-        inventory.setProduct(inventoryData.getProductData());
-        inventory.setQuantity(inventoryData.getQuantity());
-        inventory.setName(inventoryData.getName());
-        inventory.setReservedQuantity(inventoryData.getReservedQuantity());
+        newInventory.setId(inventoryData.getId());
+        newInventory.setProduct(inventoryData.getProductData());
+        newInventory.setQuantity(inventoryData.getQuantity());
+        newInventory.setName(inventoryData.getName());
+        newInventory.setReservedQuantity(inventoryData.getReservedQuantity());
 
         return newInventory;
     }

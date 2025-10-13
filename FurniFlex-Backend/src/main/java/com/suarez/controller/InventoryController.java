@@ -65,9 +65,9 @@ public class InventoryController {
         return response;
     }
 
-    @PutMapping("api/inventory/{id})")
+    @PutMapping("api/inventory/{id}")
     public ResponseEntity<?> update(@PathVariable final int id, @RequestBody Inventory inventory) {
-        logger.info("Input >> " + inventory.toString());
+        logger.info("Input >> {}", inventory);
         HttpHeaders headers = new HttpHeaders();
         ResponseEntity<?> response;
 
@@ -82,7 +82,7 @@ public class InventoryController {
         return response;
     }
 
-    @DeleteMapping("api/inventory/{id})")
+    @DeleteMapping("api/inventory/{id}")
     public ResponseEntity<?> delete(@PathVariable final int id) {
         logger.info("Input inventory id >> " + id);
         HttpHeaders headers = new HttpHeaders();

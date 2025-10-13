@@ -32,6 +32,8 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setName(customerData.get().getName());
             customer.setEmail(customerData.get().getEmail());
             customer.setPhone(customerData.get().getPhone());
+            customer.setCreated(customerData.get().getCreated());
+            customer.setLastUpdated(customerData.get().getLastUpdated());
         } else {
             logger.warn("Customer with id: " + id + " not found");
         }
@@ -55,6 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setName(customerData.getName());
             customer.setEmail(customerData.getEmail());
             customer.setPhone(customerData.getPhone());
+            customer.setCreated(customerData.getCreated());
+            customer.setLastUpdated(customerData.getLastUpdated());
             customerList.add(customer);
         }
 
@@ -78,10 +82,10 @@ public class CustomerServiceImpl implements CustomerService {
 
         logger.info("Customer created with id: " + customerData.getId());
         Customer newCustomer = new Customer();
-        customer.setId(customerData.getId());
-        customer.setName(customerData.getName());
-        customer.setEmail(customerData.getEmail());
-        customer.setPhone(customerData.getPhone());
+        newCustomer.setId(customerData.getId());
+        newCustomer.setName(customerData.getName());
+        newCustomer.setEmail(customerData.getEmail());
+        newCustomer.setPhone(customerData.getPhone());
 
         return newCustomer;
     }

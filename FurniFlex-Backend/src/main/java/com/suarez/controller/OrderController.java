@@ -67,7 +67,7 @@ public class OrderController {
 
     @PutMapping("api/order/{id}")
     public ResponseEntity<?> update(@PathVariable final int id, @RequestBody Order order) {
-        logger.info("Input id >> " + id + " : " + order.toString());
+        logger.info("Input id >> {} : {}", id, order);
         HttpHeaders headers = new HttpHeaders();
         ResponseEntity<?> response;
 

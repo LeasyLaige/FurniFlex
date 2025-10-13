@@ -36,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
             order.setProduct(optional.get().getProduct());
             order.setQuantity(optional.get().getQuantity());
             order.setCreated(optional.get().getCreated());
+            order.setLastUpdated(optional.get().getLastUpdated());
             order.setStatus(optional.get().getStatus());
             logger.info(" Success >> found id: " + id);
         } else {
@@ -61,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
             order.setCustomer(orderData.getCustomer());
             order.setProduct(orderData.getProduct());
             order.setQuantity(orderData.getQuantity());
+            order.setLastUpdated(orderData.getLastUpdated());
             order.setCreated(orderData.getCreated());
             order.setStatus(orderData.getStatus());
             orderList.add(order);
