@@ -3,7 +3,7 @@ package com.suarez.entity;
 import lombok.Data;
 import lombok.Getter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Data
 @Entity

@@ -2,9 +2,9 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_DATABASE=api'
+      - 'MYSQL_PASSWORD=FurniflexMysql399!'
+      - 'MYSQL_ROOT_PASSWORD=MadebyRootMysql399!'
+      - 'MYSQL_USER=furniflexuser'
     ports:
-      - '3306'
+      - "3307:3306"
