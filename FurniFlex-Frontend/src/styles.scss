@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Earth-Tone Theme for FurniFlex */
+:root {
+	/* Earthy palette */
+	--ff-sand: #e9dccb;      /* light background */
+	--ff-canvas: #f7f2ea;    /* app canvas */
+	--ff-clay: #c4a484;      /* accents */
+	--ff-terracotta: #c2683c;/* primary */
+	--ff-forest: #2f4f4f;    /* deep accents */
+	--ff-walnut: #5a4633;    /* text strong */
+	--ff-olive: #6b8a6e;     /* success/positive */
+	--ff-ink: #2b2b2b;       /* text */
+
+	/* Bootstrap variable overrides */
+	--bs-body-bg: var(--ff-canvas);
+	--bs-body-color: var(--ff-ink);
+	--bs-primary: var(--ff-terracotta);
+	--bs-primary-rgb: 194, 104, 60;
+	--bs-link-color: var(--ff-terracotta);
+	--bs-link-hover-color: #a94c29;
+	--bs-border-color: #e0d7cc;
+	--bs-navbar-color: var(--ff-ink);
+	--bs-navbar-brand-color: var(--ff-walnut);
+}
+
+html, body {
+	background: var(--ff-canvas);
+}
+
+/* Offset content for fixed header height */
+body { padding-top: 72px; }
+@media (min-width: 992px) { body { padding-top: 80px; } }
+
+/* Utility tweaks */
+.btn-primary {
+	--bs-btn-bg: var(--ff-terracotta);
+	--bs-btn-border-color: var(--ff-terracotta);
+	--bs-btn-hover-bg: #b65930;
+	--bs-btn-hover-border-color: #b65930;
+}
+
+.text-walnut { color: var(--ff-walnut); }
+.bg-sand { background: var(--ff-sand); }
+.bg-canvas { background: var(--ff-canvas); }
+.bg-forest { background: var(--ff-forest); }
+.bg-clay { background: var(--ff-clay); }

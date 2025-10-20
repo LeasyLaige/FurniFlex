@@ -1,1 +1,158 @@
-<p>home works!</p>
+<section class="py-5 mb-5">
+  <div class="fixed-img"></div>
+  <div class="container-fluid px-4 px-xxl-5">
+    <div class="row align-items-center g-4 z-3">
+      <div class="col-12 col-lg-6">
+        <h1 class="display-5 fw-semibold text-primary mb-3">Make your home feel like home.</h1>
+        <p class="lead text-secondary-custom">Timeless furniture crafted from natural materials—designed for comfort,
+          built to last, and styled for you.</p>
+        <div class="d-flex gap-2 mt-3">
+          <a class="btn btn-primary btn-lg primary-button-custom" routerLink="/collections">Shop Collections</a>
+          <a class="btn btn-outline-secondary btn-lg text-secondary-custom" routerLink="/about">Our Story</a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="rounded-4 overflow-hidden shadow hero-slider position-relative">
+          <img *ngFor="let h of heroImages; let i = index"
+               [src]="h.src" [alt]="h.alt" (error)="onImgError($event)"
+               class="w-100 d-block hero-slide"
+               [class.active]="i === heroIndex" />
+
+          <!-- Controls -->
+          <button type="button" class="btn btn-light btn-sm hero-control prev" (click)="prevHero()" aria-label="Previous image">&#10094;</button>
+          <button type="button" class="btn btn-light btn-sm hero-control next" (click)="nextHero()" aria-label="Next image">&#10095;</button>
+
+          <!-- Indicators -->
+          <div class="hero-indicators">
+            <button type="button" *ngFor="let _ of heroImages; let i = index"
+                    class="indicator" [class.active]="i === heroIndex"
+                    (click)="goHero(i)" aria-label="Go to image {{ i + 1 }}"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="h4 text-walnut mb-3">Browse by room</h2>
+    <div class="row g-3">
+      <div class="col-6 col-md-3" *ngFor="let room of rooms">
+        <a class="text-decoration-none" [routerLink]="['/category', room.name]">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="ratio ratio-1x1 rounded-top" style="background: var(--ff-sand);">
+              <img [src]="room.img" [alt]="room.name" (error)="onImgError($event)" class="img-fluid rounded-top w-100 h-100 object-fit-cover" />
+            </div>
+            <div class="card-body">
+              <div class="fw-semibold text-walnut">{{ room.name }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New Arrivals -->
+<section class="py-5 bg-sand-light">
+  <div class="container-fluid px-4 px-xxl-5">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+      <h2 class="h4 text-walnut m-0">New arrivals</h2>
+      <a routerLink="/collections" class="link-chevron">View all</a>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-md-3" *ngFor="let p of [
+        {name:'Oak Lounge Chair', price:'$289', img:'assets/home/new/oak-lounge.jpg'},
+        {name:'Walnut Side Table', price:'$149', img:'assets/home/new/walnut-side.webp'},
+        {name:'Linen Sofa 3-Seater', price:'$899', img:'assets/home/new/linen-sofa.jpg'},
+        {name:'Rattan Accent Lamp', price:'$79', img:'assets/home/new/rattan-lamp.webp'}
+      ]">
+        <div class="card border-0 h-100 shadow-sm">
+          <div class="ratio ratio-1x1 bg-body-tertiary rounded-top overflow-hidden">
+            <img [src]="p.img" [alt]="p.name" (error)="onImgError($event)" class="w-100 h-100 object-fit-cover" />
+          </div>
+          <div class="card-body">
+            <div class="fw-semibold text-walnut">{{ p.name }}</div>
+            <div class="text-muted small">{{ p.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+<!-- Design Inspirations -->
+<section class="py-5">
+  <div class="container-fluid px-4 px-xxl-5">
+    <h2 class="h4 text-walnut mb-3">Design inspirations</h2>
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <div class="position-relative rounded-4 overflow-hidden shadow inspiration-tile" style="background-image: url('assets/home/inspo/minimal-living.jpg');">
+          <a routerLink="/collections" class="stretched-link" aria-label="Explore Minimal Living"></a>
+          <div class="p-4 text-white text-shadow">Minimal Living</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="position-relative rounded-4 overflow-hidden shadow inspiration-tile" style="background-image: url('assets/home/inspo/warm-bedroom.jpg');">
+          <a routerLink="/collections" class="stretched-link" aria-label="Explore Warm Bedroom"></a>
+          <div class="p-3 text-white text-shadow">Warm Bedroom</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="position-relative rounded-4 overflow-hidden shadow inspiration-tile" style="background-image: url('assets/home/inspo/natural-dining.webp');">
+          <a routerLink="/collections" class="stretched-link" aria-label="Explore Natural Dining"></a>
+          <div class="p-3 text-white text-shadow">Natural Dining</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="py-5 bg-sand-light">
+  <div class="container">
+    <div class="row g-3 text-center">
+      <div class="col-12 col-md-4">
+        <div class="p-4 rounded-4 shadow-sm h-100 bg-white">
+          <div class="fw-semibold text-walnut mb-1">Fast & careful delivery</div>
+          <div class="text-muted small">Schedule a day that works for you</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="p-4 rounded-4 shadow-sm h-100 bg-white">
+          <div class="fw-semibold text-walnut mb-1">2-year warranty</div>
+          <div class="text-muted small">Quality materials built to last</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="p-4 rounded-4 shadow-sm h-100 bg-white">
+          <div class="fw-semibold text-walnut mb-1">Split payments</div>
+          <div class="text-muted small">Flexible financing available</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter CTA -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10">
+        <div class="p-4 p-md-5 rounded-4 shadow bg-walnut text-white">
+          <div class="d-md-flex align-items-center justify-content-between gap-3">
+            <div class="mb-3 mb-md-0">
+              <div class="h5 m-0">Get design tips and special offers</div>
+              <div class="small opacity-75">One email a month. Unsubscribe anytime.</div>
+            </div>
+            <form class="d-flex gap-2 flex-grow-1" (submit)="$event.preventDefault()">
+              <input type="email" class="form-control" placeholder="Your email" aria-label="Email" required>
+              <button class="btn btn-light">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
