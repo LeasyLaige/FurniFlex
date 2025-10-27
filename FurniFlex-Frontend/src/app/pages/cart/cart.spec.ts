@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { CartPage } from './cart';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('CartPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CartPage]
+      imports: [CartPage],
+      providers: [provideHttpClient()]
     }).compileComponents();
   });
 

@@ -1,10 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { CategoryPage } from './category';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('CategoryPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CategoryPage]
+      imports: [CategoryPage],
+      providers: [provideHttpClient(), provideRouter([])]
     }).compileComponents();
   });
 

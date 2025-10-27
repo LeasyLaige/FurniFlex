@@ -13,6 +13,7 @@ public class Product {
     private String name;
     private String description;
     private String type;
+    private String image;
     private BigDecimal price;
     private Date lastUpdated;
     private Date created;

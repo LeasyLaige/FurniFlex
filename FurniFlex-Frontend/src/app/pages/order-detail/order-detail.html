@@ -1,0 +1,15 @@
+<section class="py-3" *ngIf="order; else loading">
+  <h1 class="h4 text-walnut mb-3">Receipt · Order #{{ order.id }}</h1>
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+  <div class="mb-2"><span class="text-muted">Status:</span> <span class="fw-semibold">{{ order.status || 'Ordered' }}</span></div>
+      <div class="mb-2"><span class="text-muted">Customer:</span> {{ order.customer?.name || ('#' + (order.customer?.id || '')) }}</div>
+      <div class="mb-2"><span class="text-muted">Product:</span> {{ order.product?.name || ('#' + (order.product?.id || '')) }}</div>
+      <div class="mb-2"><span class="text-muted">Quantity:</span> {{ order.quantity }}</div>
+      <div class="text-muted small">If you need a formal invoice, contact support with your order number.</div>
+    </div>
+  </div>
+</section>
+<ng-template #loading>
+  <p class="text-muted">Loading receipt…</p>
+</ng-template>

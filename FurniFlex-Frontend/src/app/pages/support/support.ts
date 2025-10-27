@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { Component, signal } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-support',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
   templateUrl: './support.html',
   styleUrl: './support.scss'
 })
-export class SupportPage {}
+export class SupportPage {
+  open = signal<number | null>(null);
+  toggle(i: number) {
+    this.open.update(curr => (curr === i ? null : i));
+  }
+}

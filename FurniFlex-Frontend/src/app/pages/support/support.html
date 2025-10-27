@@ -4,16 +4,23 @@
 
   <div class="accordion" id="supportFaq">
     <div class="accordion-item" *ngFor="let faq of [
-      {q:'How do I track my order?', a:'You’ll receive a tracking link via email after dispatch.'},
-      {q:'What’s your return policy?', a:'30-day hassle-free returns. Items must be in original condition.'},
-      {q:'How do I care for wood furniture?', a:'Dust regularly and avoid direct sunlight; use coasters for drinks.'}
+      {q:'Orders & Shipping · How do I track my order?', a:'Once your order ships, we’ll email you a tracking link. You can also find it under Account → Orders.'},
+      {q:'Orders & Shipping · When will my order ship?', a:'In‑stock items ship in 1–2 business days. Custom or backordered items show estimated ship dates at checkout.'},
+      {q:'Returns · What is your return policy?', a:'30‑day hassle‑free returns. Items must be unused and in original packaging. Start a return from Account → Orders or contact Support.'},
+      {q:'Returns · Are there return fees?', a:'Returns are free for defects or shipping damage. For change‑of‑mind, a small return shipping fee may apply depending on item size/weight.'},
+      {q:'Product Care · How do I care for wood furniture?', a:'Dust weekly with a soft cloth. Avoid direct sunlight and standing moisture. Use coasters; clean spills immediately. Re‑oil oiled finishes every 6–12 months.'},
+      {q:'Product Care · Fabric and leather care tips', a:'Vacuum fabric monthly using an upholstery attachment. Blot (don’t rub) spills. For leather, use a pH‑balanced cleaner and condition every 6 months.'},
+      {q:'Payments · What payment methods are accepted?', a:'We accept major credit/debit cards, select e‑wallets, and BNPL partners (region‑dependent). All payments are processed securely.'},
+      {q:'Warranty · Do products have warranties?', a:'Yes. Seating frames: 5 years; tables/storage: 2 years; lighting: 1 year. See Terms for full coverage and exclusions.'},
+      {q:'Account · I can’t sign in—what now?', a:'Use “Forgot password” on the sign‑in form. If you no longer have access to your email, contact Support to verify and update your account.'},
+      {q:'Security · How do you protect my data?', a:'We use industry‑standard encryption in transit and at rest. Limited staff access, regular audits, and strict data retention policies.'}
     ]; let i = index">
       <h2 class="accordion-header" [id]="'faq'+i">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#faqBody'+i" aria-expanded="false">
+        <button class="accordion-button" [class.collapsed]="open() !== i" type="button" (click)="toggle(i)" [attr.aria-expanded]="open() === i">
           {{ faq.q }}
         </button>
       </h2>
-      <div [id]="'faqBody'+i" class="accordion-collapse collapse" [attr.aria-labelledby]="'faq'+i" data-bs-parent="#supportFaq">
+      <div [id]="'faqBody'+i" class="accordion-collapse" [class.collapse]="true" [class.show]="open() === i" [attr.aria-labelledby]="'faq'+i" data-bs-parent="#supportFaq">
         <div class="accordion-body">{{ faq.a }}</div>
       </div>
     </div>

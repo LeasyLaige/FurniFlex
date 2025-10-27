@@ -56,13 +56,31 @@
 					<span class="badge rounded-pill text-bg-danger position-absolute top-0 start-100 translate-middle">{{ wishlistCount() }}</span>
 				</a>
 
-				<!-- Account -->
-				<a class="btn btn-icon" aria-label="Account" routerLink="/account">
-					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M20 21a8 8 0 1 0-16 0"/>
-						<circle cx="12" cy="7" r="4"/>
-					</svg>
-				</a>
+								<!-- Account -->
+								<ng-container *ngIf="!user(); else loggedIn">
+									<a class="btn btn-icon" aria-label="Account" routerLink="/account">
+											<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M20 21a8 8 0 1 0-16 0"/>
+													<circle cx="12" cy="7" r="4"/>
+											</svg>
+									</a>
+								</ng-container>
+								<ng-template #loggedIn>
+									<div class="dropdown">
+										<button class="btn btn-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account Menu">
+											<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M20 21a8 8 0 1 0-16 0"/>
+													<circle cx="12" cy="7" r="4"/>
+											</svg>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-end">
+											<li class="dropdown-item-text small text-muted">{{ user()?.name }}</li>
+											<li><a class="dropdown-item" routerLink="/account">My Account</a></li>
+											<li><hr class="dropdown-divider"></li>
+											<li><button class="dropdown-item" (click)="logout()">Log out</button></li>
+										</ul>
+									</div>
+								</ng-template>
 
 				<!-- Cart -->
 				<a class="btn btn-icon position-relative" aria-label="Cart" routerLink="/cart">

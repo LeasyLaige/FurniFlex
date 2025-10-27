@@ -22,6 +22,7 @@ public class ProductData {
     private String name;
     private String description;
     private String type;
+    private String image;
     private BigDecimal price;
 
     @UpdateTimestamp

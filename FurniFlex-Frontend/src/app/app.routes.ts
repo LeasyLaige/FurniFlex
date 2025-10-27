@@ -16,4 +16,5 @@ export const routes: Routes = [
 		{ path: 'privacy', loadComponent: () => import('./pages/privacy/privacy').then(m => m.PrivacyPage) },
 		{ path: 'terms', loadComponent: () => import('./pages/terms/terms').then(m => m.TermsPage) },
 		{ path: 'sitemap', loadComponent: () => import('./pages/sitemap/sitemap').then(m => m.SitemapPage) },
+    { path: 'order/:id', loadComponent: () => import('./pages/order-detail/order-detail').then(m => m.OrderDetailPage) },
 ];

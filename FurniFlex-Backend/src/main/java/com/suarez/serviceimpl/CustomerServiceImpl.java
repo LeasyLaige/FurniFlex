@@ -32,6 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setName(customerData.get().getName());
             customer.setEmail(customerData.get().getEmail());
             customer.setPhone(customerData.get().getPhone());
+            customer.setPassword(customerData.get().getPassword());
             customer.setCreated(customerData.get().getCreated());
             customer.setLastUpdated(customerData.get().getLastUpdated());
         } else {
@@ -56,6 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setId(customerData.getId());
             customer.setName(customerData.getName());
             customer.setEmail(customerData.getEmail());
+            customer.setPassword(customerData.getPassword());
             customer.setPhone(customerData.getPhone());
             customer.setCreated(customerData.getCreated());
             customer.setLastUpdated(customerData.getLastUpdated());
@@ -78,6 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerData.setName(customer.getName());
         customerData.setEmail(customer.getEmail());
         customerData.setPhone(customer.getPhone());
+        customerData.setPassword(customer.getPassword());
         customerData = customerDataRepository.save(customerData);
 
         logger.info("Customer created with id: " + customerData.getId());
@@ -86,6 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
         newCustomer.setName(customerData.getName());
         newCustomer.setEmail(customerData.getEmail());
         newCustomer.setPhone(customerData.getPhone());
+        newCustomer.setPassword(customerData.getPassword());
 
         return newCustomer;
     }
@@ -102,6 +106,7 @@ public class CustomerServiceImpl implements CustomerService {
             originalCustomerData.setName(customer.getName());
             originalCustomerData.setEmail(customer.getEmail());
             originalCustomerData.setPhone(customer.getPhone());
+            originalCustomerData.setPassword(customer.getPassword());
 
             CustomerData customerDataRepo = customerDataRepository.save(originalCustomerData);
 
@@ -110,6 +115,7 @@ public class CustomerServiceImpl implements CustomerService {
             updatedCustomer.setName(customerDataRepo.getName());
             updatedCustomer.setEmail(customerDataRepo.getEmail());
             updatedCustomer.setPhone(customerDataRepo.getPhone());
+            updatedCustomer.setPassword(customerDataRepo.getPassword());
         } else {
             logger.warn("Customer with id: " + id + " not found");
         }

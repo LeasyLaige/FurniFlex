@@ -1,20 +1,21 @@
 <section class="py-3">
 	<h1 class="h3 text-walnut mb-3">Account</h1>
-	<div class="row g-4">
+
+	<div *ngIf="!user(); else dashboard" class="row g-4">
 		<div class="col-12 col-lg-6">
 			<div class="card border-0 shadow-sm">
 				<div class="card-body">
 					<h2 class="h5 text-walnut">Sign in</h2>
-					<form class="mt-3" (submit)="$event.preventDefault()">
-						<div class="mb-2">
+					<form class="mt-3" (submit)="$event.preventDefault(); signIn()">
+						<div class="mb-3">
 							<label class="form-label">Email</label>
-							<input type="email" class="form-control" required />
+							<input type="email" class="form-control" required [ngModel]="loginEmail()" (ngModelChange)="loginEmail.set($event)" name="email" />
 						</div>
 						<div class="mb-3">
 							<label class="form-label">Password</label>
-							<input type="password" class="form-control" required />
+							<input type="password" class="form-control" required [ngModel]="loginPassword()" (ngModelChange)="loginPassword.set($event)" name="password" />
 						</div>
-						<button class="btn btn-primary w-100">Sign in</button>
+						<button class="btn btn-primary w-100" type="submit">Sign in</button>
 					</form>
 				</div>
 			</div>
@@ -23,29 +24,65 @@
 			<div class="card border-0 shadow-sm">
 				<div class="card-body">
 					<h2 class="h5 text-walnut">Create account</h2>
-					<form class="mt-3" (submit)="$event.preventDefault()">
+					<form class="mt-3" (submit)="$event.preventDefault(); createAccount()">
 						<div class="row g-2">
 							<div class="col-6">
 								<label class="form-label">First name</label>
-								<input type="text" class="form-control" required />
+								<input type="text" class="form-control" required [ngModel]="regFirst()" (ngModelChange)="regFirst.set($event)" name="first" />
 							</div>
 							<div class="col-6">
 								<label class="form-label">Last name</label>
-								<input type="text" class="form-control" required />
+								<input type="text" class="form-control" required [ngModel]="regLast()" (ngModelChange)="regLast.set($event)" name="last" />
 							</div>
 						</div>
 						<div class="mb-2 mt-2">
 							<label class="form-label">Email</label>
-							<input type="email" class="form-control" required />
+							<input type="email" class="form-control" required [ngModel]="regEmail()" (ngModelChange)="regEmail.set($event)" name="regEmail" />
+						</div>
+						<div class="mb-2">
+							<label class="form-label">Password</label>
+							<input type="password" class="form-control" required [ngModel]="regPassword()" (ngModelChange)="regPassword.set($event)" name="regPassword" />
 						</div>
 						<div class="mb-3">
-							<label class="form-label">Password</label>
-							<input type="password" class="form-control" required />
+							<label class="form-label">Phone (optional)</label>
+							<input type="tel" class="form-control" [ngModel]="regPhone()" (ngModelChange)="regPhone.set($event)" name="regPhone" />
 						</div>
-						<button class="btn btn-outline-secondary w-100">Create account</button>
+						<button class="btn btn-outline-secondary w-100" type="submit">Create account</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<ng-template #dashboard>
+	  <div class="d-flex justify-content-between align-items-center mb-3">
+		<div>
+		  <div class="fw-semibold">Hi, {{ user()?.name }}</div>
+		  <div class="text-muted small">{{ user()?.email }}</div>
+		</div>
+		<button class="btn btn-outline-secondary" (click)="logout()">Log out</button>
+	  </div>
+
+	  <div class="card border-0 shadow-sm">
+		<div class="card-body">
+		  <h2 class="h6 text-walnut mb-3">Orders</h2>
+		  <div *ngIf="orders().length; else noOrders">
+			<div class="list-group list-group-flush">
+			  <div class="list-group-item" *ngFor="let o of orders()">
+				<div class="d-flex justify-content-between">
+				  <div>
+					<div class="fw-semibold">#{{ o.id }} · {{ o.status || 'Ordered' }}</div>
+					<div class="text-muted small">{{ o.product?.name || ('Product #' + (o.product?.id || '')) }} · Qty {{ o.quantity }}</div>
+				  </div>
+									<div><a class="badge text-bg-light text-decoration-none" [routerLink]="['/order', o.id]">Receipt</a></div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  <ng-template #noOrders>
+			<p class="text-muted m-0">No orders yet.</p>
+		  </ng-template>
+		</div>
+	  </div>
+	</ng-template>
 </section>

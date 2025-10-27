@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
                 product.setName(productData.get().getName());
                 product.setDescription(productData.get().getDescription());
                 product.setType(productData.get().getType());
+                product.setImage(productData.get().getImage());
                 product.setPrice(productData.get().getPrice());
                 product.setCreated(productData.get().getCreated());
                 product.setLastUpdated(productData.get().getLastUpdated());
@@ -60,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
             product.setName(productData.getName());
             product.setDescription(productData.getDescription());
             product.setType(productData.getType());
+            product.setImage(productData.getImage());
             product.setPrice(productData.getPrice());
             product.setCreated(productData.getCreated());
             product.setLastUpdated(productData.getLastUpdated());
@@ -81,6 +83,7 @@ public class ProductServiceImpl implements ProductService {
         productData.setName(product.getName());
         productData.setDescription(product.getDescription());
         productData.setType(product.getType());
+        productData.setImage(product.getImage());
         productData.setPrice(product.getPrice());
         productData = productDataRepository.save(productData);
 
@@ -90,6 +93,7 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setName(productData.getName());
         newProduct.setDescription(productData.getDescription());
         newProduct.setType(productData.getType());
+        newProduct.setImage(productData.getImage());
         newProduct.setPrice(productData.getPrice());
 
         return newProduct;
@@ -105,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
                 productData.get().setName(product.getName());
                 productData.get().setDescription(product.getDescription());
                 productData.get().setType(product.getType());
+                productData.get().setImage(product.getImage());
                 productData.get().setPrice(product.getPrice());
                 productDataRepository.save(productData.get());
 
@@ -113,6 +118,7 @@ public class ProductServiceImpl implements ProductService {
                 updatedProduct.setName(productData.get().getName());
                 updatedProduct.setDescription(productData.get().getDescription());
                 updatedProduct.setType(productData.get().getType());
+                updatedProduct.setImage(productData.get().getImage());
                 updatedProduct.setPrice(productData.get().getPrice());
 
                 logger.info("Successfully updated product with id: " + id);
