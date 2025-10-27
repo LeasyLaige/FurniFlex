@@ -1,2 +1,29 @@
-<h1 class="h3 text-walnut mb-3">Cart</h1>
-<p class="text-muted">Review items and checkout securely.</p>
+<section class="py-3">
+	<h1 class="h3 text-walnut mb-3">Your cart</h1>
+	<div class="row g-4">
+		<div class="col-12 col-lg-8">
+			<div class="card border-0 shadow-sm">
+				<div class="list-group list-group-flush">
+					<div class="list-group-item" *ngFor="let i of items">
+						<div class="d-flex justify-content-between align-items-center">
+							<div>
+								<div class="fw-semibold text-walnut">{{ i.name }}</div>
+								<div class="text-muted small">${{ i.price }} · Qty {{ i.qty }}</div>
+							</div>
+							<div class="fw-semibold">${{ i.price * i.qty }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-lg-4">
+			<div class="card border-0 shadow-sm">
+				<div class="card-body">
+					<div class="d-flex justify-content-between mb-2"><span>Subtotal</span><span class="fw-semibold">${{ subtotal }}</span></div>
+					<div class="text-muted small mb-3">Shipping and taxes calculated at checkout.</div>
+					<button class="btn btn-primary w-100">Checkout</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

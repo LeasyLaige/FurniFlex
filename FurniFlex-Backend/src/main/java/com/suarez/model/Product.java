@@ -12,6 +12,7 @@ public class Product {
     private int id;
     private String name;
     private String description;
+    private String type;
     private BigDecimal price;
     private Date lastUpdated;
     private Date created;

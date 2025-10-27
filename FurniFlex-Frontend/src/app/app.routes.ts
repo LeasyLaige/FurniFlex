@@ -10,4 +10,10 @@ export const routes: Routes = [
 		{ path: 'account', loadComponent: () => import('./pages/account/account').then(m => m.AccountPage) },
 		{ path: 'cart', loadComponent: () => import('./pages/cart/cart').then(m => m.CartPage) },
 		{ path: 'category/:category', loadComponent: () => import('./pages/category/category').then(m => m.CategoryPage) },
+		{ path: 'category/:category/:sub', loadComponent: () => import('./pages/category/category').then(m => m.CategoryPage) },
+		{ path: 'careers', loadComponent: () => import('./pages/careers/careers').then(m => m.CareersPage) },
+		{ path: 'support', loadComponent: () => import('./pages/support/support').then(m => m.SupportPage) },
+		{ path: 'privacy', loadComponent: () => import('./pages/privacy/privacy').then(m => m.PrivacyPage) },
+		{ path: 'terms', loadComponent: () => import('./pages/terms/terms').then(m => m.TermsPage) },
+		{ path: 'sitemap', loadComponent: () => import('./pages/sitemap/sitemap').then(m => m.SitemapPage) },
 ];
