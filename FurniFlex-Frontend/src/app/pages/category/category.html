@@ -4,7 +4,9 @@
 		<div class="col-6 col-md-3" *ngFor="let p of products">
 			<div class="card border-0 shadow-sm h-100">
 								<div class="ratio ratio-1x1 rounded-top overflow-hidden bg-body-tertiary position-relative">
-										<img [src]="p.image" [alt]="p.name" class="w-100 h-100 object-fit-cover" />
+										<a [routerLink]="['/product', p.id]" class="d-block w-100 h-100">
+											<img [src]="p.image" [alt]="p.name" class="w-100 h-100 object-fit-cover" />
+										</a>
 										<span *ngIf="available(p) === 0" class="stock-badge badge text-bg-secondary position-absolute">Out of stock</span>
 										<span *ngIf="low(p)" class="stock-badge badge text-bg-warning position-absolute">Low stock</span>
 										<button class="wish-btn btn btn-light btn-sm p-1 position-absolute top-0 end-0 m-2" (click)="toggleWish(p)" [attr.aria-pressed]="inWish(p)" title="Add to wishlist">
@@ -14,7 +16,7 @@
 										</button>
 								</div>
 				<div class="card-body">
-					<div class="fw-semibold text-walnut">{{ p.name }}</div>
+					<a [routerLink]="['/product', p.id]" class="fw-semibold text-walnut text-decoration-none">{{ p.name }}</a>
 					<div class="text-muted small">${{ p.price }}</div>
 					<div *ngIf="low(p)" class="text-warning-emphasis small">Only {{ available(p) }} left</div>
 				</div>

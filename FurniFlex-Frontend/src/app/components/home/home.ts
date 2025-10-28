@@ -7,6 +7,8 @@ import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/product.model';
 import { ProductCarousel } from '../product-carousel/product-carousel';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { NewsletterService } from '../../core/services/newsletter.service';
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,7 @@ import { RevealDirective } from '../../shared/directives/reveal.directive';
 })
 export class Home implements OnInit, OnDestroy {
   private productsSvc = inject(ProductService);
+  private newsletter = inject(NewsletterService);
   rooms = [
     { name: 'Living Room', img: 'assets/home/rooms/living-room.jpg' },
     { name: 'Bedroom', img: 'assets/home/rooms/bedroom.jpg' },
@@ -56,6 +59,7 @@ export class Home implements OnInit, OnDestroy {
       // Lightweight picks
       this.trending = p.slice(0, 12);
       this.living = p.filter(x => /sofa|sectional|armchair|coffee|living/i.test(x.type || '')).slice(0, 12);
+      this.newArrivals = p.slice(0, 4);
     });
   }
 
@@ -70,4 +74,18 @@ export class Home implements OnInit, OnDestroy {
   // Showcase data
   trending: Product[] = [];
   living: Product[] = [];
+  newArrivals: Product[] = [];
+
+  // Newsletter subscribe (home)
+  subscribeSending = signal(false);
+  subscribeStatus = signal<'idle' | 'ok' | 'error'>('idle');
+  subscribeHome(email: string) {
+    if (!email) return;
+    this.subscribeSending.set(true);
+    this.subscribeStatus.set('idle');
+    this.newsletter.subscribe(email).subscribe({
+      next: () => { this.subscribeSending.set(false); this.subscribeStatus.set('ok'); },
+      error: () => { this.subscribeSending.set(false); this.subscribeStatus.set('error'); }
+    });
+  }
 }

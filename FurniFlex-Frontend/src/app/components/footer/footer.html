@@ -29,10 +29,12 @@
       <div class="col-12 col-md-4">
         <h6 class="text-uppercase small fw-bold text-walnut">Stay in the loop</h6>
         <p class="text-muted">Join our newsletter for new arrivals, trends, and exclusive offers.</p>
-        <form class="d-flex gap-2 flex-wrap">
-          <input type="email" class="form-control" placeholder="you@example.com" aria-label="Email" required />
-          <button class="btn btn-primary" type="submit">Subscribe</button>
+        <form class="d-flex gap-2 flex-wrap" (submit)="$event.preventDefault(); onSubscribe(email.value)">
+          <input #email type="email" class="form-control" placeholder="you@example.com" aria-label="Email" required />
+          <button class="btn btn-primary" type="submit" [disabled]="submitting()">{{ submitting() ? 'Subscribing…' : 'Subscribe' }}</button>
         </form>
+        <div class="small mt-2" *ngIf="status() === 'ok'">Thanks! You’re subscribed.</div>
+        <div class="small text-danger mt-2" *ngIf="status() === 'error'">Something went wrong. Please try again.</div>
       </div>
     </div>
     <hr class="my-4" />

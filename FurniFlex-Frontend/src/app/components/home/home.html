@@ -62,19 +62,16 @@
       <a routerLink="/collections" class="link-chevron">View all</a>
     </div>
     <div class="row g-3">
-      <div class="col-6 col-md-3" *ngFor="let p of [
-        {name:'Oak Lounge Chair', price:'$289', img:'assets/home/new/oak-lounge.jpg'},
-        {name:'Walnut Side Table', price:'$149', img:'assets/home/new/walnut-side.webp'},
-        {name:'Linen Sofa 3-Seater', price:'$899', img:'assets/home/new/linen-sofa.jpg'},
-        {name:'Rattan Accent Lamp', price:'$79', img:'assets/home/new/rattan-lamp.webp'}
-      ]">
+      <div class="col-6 col-md-3" *ngFor="let p of newArrivals">
         <div class="card border-0 h-100 shadow-sm">
           <div class="ratio ratio-1x1 bg-body-tertiary rounded-top overflow-hidden">
-            <img [src]="p.img" [alt]="p.name" (error)="onImgError($event)" class="w-100 h-100 object-fit-cover" />
+            <a [routerLink]="['/product', p.id]" class="d-block w-100 h-100">
+              <img [src]="p.image || 'assets/home/new/oak-lounge.jpg'" [alt]="p.name" (error)="onImgError($event)" class="w-100 h-100 object-fit-cover" />
+            </a>
           </div>
           <div class="card-body">
-            <div class="fw-semibold text-walnut">{{ p.name }}</div>
-            <div class="text-muted small">{{ p.price }}</div>
+            <a [routerLink]="['/product', p.id]" class="fw-semibold text-walnut text-decoration-none">{{ p.name }}</a>
+            <div class="text-muted small">${{ p.price }}</div>
           </div>
         </div>
       </div>
@@ -146,11 +143,13 @@
               <div class="h5 m-0">Get design tips and special offers</div>
               <div class="small opacity-75">One email a month. Unsubscribe anytime.</div>
             </div>
-            <form class="d-flex gap-2 flex-grow-1" (submit)="$event.preventDefault()">
-              <input type="email" class="form-control" placeholder="Your email" aria-label="Email" required>
-              <button class="btn btn-light">Subscribe</button>
+            <form class="d-flex gap-2 flex-grow-1" (submit)="$event.preventDefault(); subscribeHome(email.value)">
+              <input #email type="email" class="form-control" placeholder="Your email" aria-label="Email" required>
+              <button class="btn btn-light" [disabled]="subscribeSending()">{{ subscribeSending() ? 'Subscribing…' : 'Subscribe' }}</button>
             </form>
           </div>
+          <div class="small mt-2" *ngIf="subscribeStatus() === 'ok'">Thanks! You're subscribed.</div>
+          <div class="small text-danger mt-2" *ngIf="subscribeStatus() === 'error'">Subscription failed. Try again.</div>
         </div>
       </div>
     </div>

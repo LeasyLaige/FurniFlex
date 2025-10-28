@@ -1,5 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { WishlistService } from '../../core/services/wishlist.service';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/product.model';
@@ -7,7 +8,7 @@ import { Product } from '../../core/models/product.model';
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, RouterLink],
   templateUrl: './wishlist.html',
   styleUrl: './wishlist.scss'
 })

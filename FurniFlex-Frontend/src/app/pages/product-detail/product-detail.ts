@@ -7,6 +7,9 @@ import { ProductService } from '../../core/services/product.service';
 import { InventoryService } from '../../core/services/inventory.service';
 import { CartService } from '../../core/services/cart.service';
 import { WishlistService } from '../../core/services/wishlist.service';
+import { ReviewService } from '../../core/services/review.service';
+import { Review as ReviewModel } from '../../core/models/review.model';
+import { AccountService } from '../../core/services/account.service';
 
 interface Review { author: string; rating: number; date: string; comment: string; }
 
@@ -23,17 +26,17 @@ export class ProductDetailPage {
   private inventory = inject(InventoryService);
   private cart = inject(CartService);
   private wish = inject(WishlistService);
+  private reviewsApi = inject(ReviewService);
+  private acct = inject(AccountService);
 
   readonly loading = signal(true);
   readonly product = signal<Product | null>(null);
   readonly available = signal<number>(0);
 
-  // Demo reviews (placeholder until backend provides these)
-  readonly reviews = signal<Review[]>([
-    { author: 'Alex M.', rating: 5, date: '2025-09-12', comment: 'Excellent quality and finish. Worth every penny.' },
-    { author: 'Jamie L.', rating: 4, date: '2025-10-01', comment: 'Looks great, slightly firmer than expected.' },
-    { author: 'Taylor R.', rating: 5, date: '2025-10-18', comment: 'Fast delivery and the packaging was solid. Love it!' }
-  ]);
+  // Live reviews fetched from backend
+  readonly reviews = signal<Review[]>([]);
+  // Current user
+  readonly user = computed(() => this.acct.current());
 
   readonly avgRating = computed(() => {
     const list = this.reviews();
@@ -55,6 +58,16 @@ export class ProductDetailPage {
         this.inventory.byProductId(id).subscribe(inv => {
           const available = Math.max(0, (inv?.quantity || 0) - (inv?.reservedQuantity || 0));
           this.available.set(available);
+        });
+        // Load reviews
+        this.reviewsApi.byProductId(id).subscribe(list => {
+          const mapped = (list || []).map(r => ({
+            author: r.author,
+            rating: r.rating,
+            date: r.created || new Date().toISOString(),
+            comment: r.comment
+          }));
+          this.reviews.set(mapped);
         });
       });
     });
@@ -79,5 +92,16 @@ export class ProductDetailPage {
 
   private fallbackImg(p: Product) {
     return 'assets/home/new/oak-lounge.jpg';
+  }
+
+  submitReview(name: string, rating: number, comment: string) {
+    const p = this.product();
+    if (!p || !rating || !comment) return;
+    const author = (name && name.trim()) || this.user()?.name || 'Anonymous';
+    const payload: ReviewModel = { productId: p.id!, author, rating: Number(rating), comment };
+    this.reviewsApi.create(payload).subscribe(saved => {
+      const next: Review = { author: saved.author, rating: saved.rating, date: saved.created || new Date().toISOString(), comment: saved.comment };
+      this.reviews.set([next, ...this.reviews()]);
+    });
   }
 }
