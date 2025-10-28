@@ -1,0 +1,99 @@
+<section class="py-4" *ngIf="product() as p">
+  <div class="container">
+    <nav class="mb-3 small">
+      <a routerLink="/collections" class="text-decoration-none">Collections</a>
+      <span class="text-muted"> / </span>
+      <span class="text-muted">{{ p.type || 'Product' }}</span>
+    </nav>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <div class="ratio ratio-4x3 bg-body-tertiary rounded-3 overflow-hidden shadow-sm">
+          <img [src]="p.image" [alt]="p.name" class="w-100 h-100 object-fit-cover" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <h1 class="h3 text-walnut mb-2">{{ p.name }}</h1>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <div class="h5 m-0">${{ p.price }}</div>
+          <div class="text-muted small">SKU #{{ p.id }}</div>
+        </div>
+        <div class="mb-3 text-muted" *ngIf="p.description">{{ p.description }}</div>
+
+        <div class="mb-3">
+          <span class="badge" [class.text-bg-secondary]="available() === 0" [class.text-bg-success]="available() > 0">
+            {{ available() === 0 ? 'Out of stock' : (available() <= 5 ? 'Low stock • ' + available() + ' left' : 'In stock') }}
+          </span>
+        </div>
+
+        <div class="d-flex gap-2 mb-4">
+          <button class="btn btn-primary" (click)="addToCart()" [disabled]="available() === 0">Add to cart</button>
+          <button class="btn btn-outline-secondary" (click)="toggleWish()" [attr.aria-pressed]="inWish()">
+            <span *ngIf="!inWish()">Add to wishlist</span>
+            <span *ngIf="inWish()">In wishlist</span>
+          </button>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-transparent"><strong>Specifications</strong></div>
+          <div class="card-body small">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="text-muted">SKU</div>
+                <div>{{ p.sku || '—' }}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Type</div>
+                <div>{{ p.type || '—' }}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Dimensions</div>
+                <div>{{ p.dimensions || '—' }}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Material</div>
+                <div>{{ p.material || '—' }}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Color / Finish</div>
+                <div>{{ p.color || '—' }}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Weight</div>
+                <div>{{ p.weight || '—' }}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Product ID</div>
+                <div>{{ p.id }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+            <strong>Customer reviews</strong>
+            <span class="small text-muted" *ngIf="reviews().length">Avg {{ avgRating() }}★ • {{ reviews().length }} reviews</span>
+            <span class="small text-muted" *ngIf="!reviews().length">No reviews yet</span>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let r of reviews()">
+              <div class="d-flex justify-content-between">
+                <div><strong>{{ r.author }}</strong></div>
+                <div class="text-warning-emphasis">{{ r.rating }}★</div>
+              </div>
+              <div class="text-muted small">{{ r.date | date:'mediumDate' }}</div>
+              <div class="mt-1">{{ r.comment }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 text-center" *ngIf="!product() && loading()">
+  <div class="container">
+    <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+  </div>
+</section>

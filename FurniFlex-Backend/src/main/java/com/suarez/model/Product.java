@@ -17,4 +17,10 @@ public class Product {
     private BigDecimal price;
     private Date lastUpdated;
     private Date created;
+    // Extended specifications
+    private String sku;
+    private String dimensions;
+    private String material;
+    private String color;
+    private String weight;
 }

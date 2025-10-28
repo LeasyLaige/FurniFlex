@@ -36,6 +36,11 @@ public class ProductServiceImpl implements ProductService {
                 product.setType(productData.get().getType());
                 product.setImage(productData.get().getImage());
                 product.setPrice(productData.get().getPrice());
+                product.setSku(productData.get().getSku());
+                product.setDimensions(productData.get().getDimensions());
+                product.setMaterial(productData.get().getMaterial());
+                product.setColor(productData.get().getColor());
+                product.setWeight(productData.get().getWeight());
                 product.setCreated(productData.get().getCreated());
                 product.setLastUpdated(productData.get().getLastUpdated());
                 logger.info("Successfully found product with id: " + id);
@@ -63,6 +68,11 @@ public class ProductServiceImpl implements ProductService {
             product.setType(productData.getType());
             product.setImage(productData.getImage());
             product.setPrice(productData.getPrice());
+            product.setSku(productData.getSku());
+            product.setDimensions(productData.getDimensions());
+            product.setMaterial(productData.getMaterial());
+            product.setColor(productData.getColor());
+            product.setWeight(productData.getWeight());
             product.setCreated(productData.getCreated());
             product.setLastUpdated(productData.getLastUpdated());
             productList.add(product);
@@ -85,6 +95,11 @@ public class ProductServiceImpl implements ProductService {
         productData.setType(product.getType());
         productData.setImage(product.getImage());
         productData.setPrice(product.getPrice());
+    productData.setSku(product.getSku());
+    productData.setDimensions(product.getDimensions());
+    productData.setMaterial(product.getMaterial());
+    productData.setColor(product.getColor());
+    productData.setWeight(product.getWeight());
         productData = productDataRepository.save(productData);
 
         logger.info("Product created with id: " + productData.getId());
@@ -95,6 +110,11 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setType(productData.getType());
         newProduct.setImage(productData.getImage());
         newProduct.setPrice(productData.getPrice());
+    newProduct.setSku(productData.getSku());
+    newProduct.setDimensions(productData.getDimensions());
+    newProduct.setMaterial(productData.getMaterial());
+    newProduct.setColor(productData.getColor());
+    newProduct.setWeight(productData.getWeight());
 
         return newProduct;
     }
@@ -111,6 +131,11 @@ public class ProductServiceImpl implements ProductService {
                 productData.get().setType(product.getType());
                 productData.get().setImage(product.getImage());
                 productData.get().setPrice(product.getPrice());
+                productData.get().setSku(product.getSku());
+                productData.get().setDimensions(product.getDimensions());
+                productData.get().setMaterial(product.getMaterial());
+                productData.get().setColor(product.getColor());
+                productData.get().setWeight(product.getWeight());
                 productDataRepository.save(productData.get());
 
                 updatedProduct = new Product();
@@ -120,6 +145,11 @@ public class ProductServiceImpl implements ProductService {
                 updatedProduct.setType(productData.get().getType());
                 updatedProduct.setImage(productData.get().getImage());
                 updatedProduct.setPrice(productData.get().getPrice());
+                updatedProduct.setSku(productData.get().getSku());
+                updatedProduct.setDimensions(productData.get().getDimensions());
+                updatedProduct.setMaterial(productData.get().getMaterial());
+                updatedProduct.setColor(productData.get().getColor());
+                updatedProduct.setWeight(productData.get().getWeight());
 
                 logger.info("Successfully updated product with id: " + id);
             } else {

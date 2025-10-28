@@ -47,6 +47,50 @@ $imgFiles = Get-ChildItem -Path $assetsRoot -Recurse -Include *.jpg,*.jpeg,*.png
 
 function Convert-TitleCase($s) { return -join (($s -split '[-_]') | ForEach-Object { ($_ -replace '\.\w+$','')[0].ToString().ToUpper() + $_.Substring(1) }) -replace '([A-Z])', ' $1' -replace '^ ', '' }
 
+# Friendly name generators
+$Adjectives = @('Aurora','Luxe','Haven','Cedar','Harbor','Summit','Vista','Verve','Atlas','Noble','Urban','Coastal','Heritage','Prime','Echo','Terra','Nimbus','Oakmere','Ridge','Solace')
+$Finishes = @('Walnut','Oak','Birch','Espresso','Charcoal','Sand','Slate','Ivory','Mocha','Cognac','Natural','Teak','Mahogany')
+$Materials = @('Solid oak','Solid walnut','Engineered wood','Steel frame','Aluminum frame','Tempered glass','Rattan','Bamboo','Linen blend','Top-grain leather','Bouclé fabric','Velvet')
+$Colors = @('Walnut','Charcoal','Ivory','Stone','Forest','Navy','Cognac','Sand','Slate','Olive','Espresso','Natural')
+
+function Pick($arr) { return $arr[(Get-Random -Minimum 0 -Maximum $arr.Count)] }
+
+function Get-FriendlyName($type) {
+  $adj = Pick $Adjectives; $finish = Pick $Finishes
+  switch ($type) {
+    'Sofas' { return "$adj $finish Sofa" }
+    'Sectionals' { return "$adj $finish Sectional" }
+    'Armchairs' { return "$adj $finish Armchair" }
+    'Coffee Tables' { return "$adj $finish Coffee Table" }
+    'Beds' { return "$adj $finish Bed" }
+    'Mattresses' { return "$adj Mattress" }
+    'Wardrobes' { return "$adj $finish Wardrobe" }
+    'Nightstands' { return "$adj $finish Nightstand" }
+    'Dining Tables' { return "$adj $finish Dining Table" }
+    'Dining Chairs' { return "$adj $finish Dining Chair" }
+    'Bar Stools' { return "$adj $finish Bar Stool" }
+    'Sideboards' { return "$adj $finish Sideboard" }
+    'Desks' { return "$adj $finish Desk" }
+    'Office Chairs' { return "$adj Office Chair" }
+    'Bookcases' { return "$adj $finish Bookcase" }
+    'Storage' { return "$adj $finish Storage" }
+    default { return "$adj $finish $type" }
+  }
+}
+
+function Get-Sku($type) {
+  $code = ($type.Substring(0,1) + ($type -replace '[^A-Z]', '').ToUpper()).Substring(0, [Math]::Min(2, ($type -replace '\s','').Length))
+  $num = Get-Random -Minimum 10000 -Maximum 99999
+  return "FF-$code-$num"
+}
+
+function Get-Dimensions($type) {
+  $w = Get-Random -Minimum 18 -Maximum 96
+  $d = Get-Random -Minimum 16 -Maximum 40
+  $h = Get-Random -Minimum 16 -Maximum 72
+  return "$w`" W x $d`" D x $h`" H"
+}
+
 function Get-FriendlyType($path) {
   $folder = Split-Path $path -Parent | Split-Path -Leaf
   switch ($folder.ToLower()) {
@@ -77,12 +121,17 @@ foreach ($f in $imgFiles) {
   $relPath = $relPath -replace "^.*?assets\\", '/assets\'  # ensure starts with root-relative /assets
 
   $type = Get-FriendlyType $f.FullName
-  $nameBase = [System.IO.Path]::GetFileNameWithoutExtension($f.Name) -replace '[-_]', ' '
-  $name = Convert-TitleCase $nameBase
-  if (-not $name) { $name = "$type Item" }
+  $name = Get-FriendlyName $type
   $price = [decimal](Get-Random -Minimum 79 -Maximum 1299)
 
-  $p = @{ name = $name; description = "$type crafted for everyday use"; type = $type; price = $price; image = $relPath.Replace('\\','/') }
+  # Specifications
+  $sku = Get-Sku $type
+  $dimensions = Get-Dimensions $type
+  $material = Pick $Materials
+  $color = Pick $Colors
+  $weight = "$(Get-Random -Minimum 8 -Maximum 180) lb"
+
+  $p = @{ name = $name; description = "$type crafted for everyday use"; type = $type; price = $price; image = $relPath.Replace('\\','/'); sku = $sku; dimensions = $dimensions; material = $material; color = $color; weight = $weight }
   try {
     $res = PostJson "$base/product" $p
     $productResults += $res

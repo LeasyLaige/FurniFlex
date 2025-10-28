@@ -3,6 +3,7 @@ import { Home } from './components/home/home';
 
 export const routes: Routes = [
 		{ path: '', component: Home, pathMatch: 'full' },
+    { path: 'product/:id', loadComponent: () => import('./pages/product-detail/product-detail').then(m => m.ProductDetailPage) },
 		{ path: 'collections', loadComponent: () => import('./pages/collections/collections').then(m => m.CollectionsPage) },
 		{ path: 'about', loadComponent: () => import('./pages/about/about').then(m => m.AboutPage) },
 		{ path: 'contact', loadComponent: () => import('./pages/contact/contact').then(m => m.ContactPage) },

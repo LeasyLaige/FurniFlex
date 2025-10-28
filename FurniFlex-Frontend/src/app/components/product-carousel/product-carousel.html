@@ -10,7 +10,7 @@
   <div class="snap-container position-relative">
     <div class="snap-scroll" tabindex="0" #scroller>
       <div class="snap-item" *ngFor="let p of products">
-        <div class="card product-card border-0 shadow-sm h-100">
+        <div class="card product-card border-0 shadow-sm h-100" [routerLink]="['/product', p.id]" role="button">
           <div class="ratio ratio-4x3 image-wrap rounded-top bg-body-tertiary position-relative">
             <img [src]="p.image" [alt]="p.name" class="w-100 h-100 object-fit-cover">
             <span *ngIf="available(p) === 0" class="stock-badge badge text-bg-secondary position-absolute">Out of stock</span>
