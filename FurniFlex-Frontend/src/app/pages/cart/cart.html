@@ -20,11 +20,79 @@
 			</div>
 		</div>
 		<div class="col-12 col-lg-4">
+			<div class="card border-0 shadow-sm mb-3">
+				<div class="card-body">
+					<h2 class="h6 text-walnut mb-3">Delivery address</h2>
+					<div class="mb-2">
+						<label class="form-label">Full name</label>
+						<input class="form-control" required [ngModel]="recipientName()" (ngModelChange)="recipientName.set($event)" />
+					</div>
+					<div class="mb-2">
+						<label class="form-label">Address line 1</label>
+						<input class="form-control" required [ngModel]="addressLine1()" (ngModelChange)="addressLine1.set($event)" />
+					</div>
+					<div class="mb-2">
+						<label class="form-label">Address line 2 (optional)</label>
+						<input class="form-control" [ngModel]="addressLine2()" (ngModelChange)="addressLine2.set($event)" />
+					</div>
+					<div class="row g-2">
+						<div class="col-6">
+							<label class="form-label">City</label>
+							<input class="form-control" required [ngModel]="city()" (ngModelChange)="city.set($event)" />
+						</div>
+						<div class="col-6">
+							<label class="form-label">State/Region</label>
+							<input class="form-control" required [ngModel]="state()" (ngModelChange)="state.set($event)" />
+						</div>
+					</div>
+					<div class="row g-2 mt-2">
+						<div class="col-6">
+							<label class="form-label">Postal code</label>
+							<input class="form-control" required [ngModel]="postalCode()" (ngModelChange)="postalCode.set($event)" />
+						</div>
+						<div class="col-6">
+							<label class="form-label">Country</label>
+							<select class="form-select" required [ngModel]="country()" (ngModelChange)="country.set($event)">
+								<option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+							</select>
+						</div>
+					</div>
+					<div class="mt-2">
+						<label class="form-label">Phone (optional)</label>
+						<input class="form-control" [ngModel]="phone()" (ngModelChange)="phone.set($event)" />
+					</div>
+				</div>
+			</div>
+
+			<div class="card border-0 shadow-sm mb-3">
+				<div class="card-body">
+					<h2 class="h6 text-walnut mb-3">Shipping method</h2>
+					<div class="form-check mb-1">
+						<input class="form-check-input" type="radio" name="ship" id="shipStd" [checked]="shippingMethod() === 'standard'" (change)="shippingMethod.set('standard')">
+						<label class="form-check-label" for="shipStd">
+							Standard — {{ standardShipping() ? (standardShipping() | currency:'USD':'symbol':'1.2-2') : 'Free' }}
+						</label>
+					</div>
+					<div class="text-muted small mb-2 ms-4">3–7 business days, tracking</div>
+					<div class="form-check mb-1">
+						<input class="form-check-input" type="radio" name="ship" id="shipExp" [checked]="shippingMethod() === 'express'" (change)="shippingMethod.set('express')">
+						<label class="form-check-label" for="shipExp">
+							Express — {{ expressShipping() | currency:'USD':'symbol':'1.2-2' }} (no free threshold)
+						</label>
+					</div>
+					<div class="text-muted small ms-4">1–2 business days, priority handling</div>
+				</div>
+			</div>
+
 			<div class="card border-0 shadow-sm">
 				<div class="card-body">
-					<div class="d-flex justify-content-between mb-2"><span>Subtotal</span><span class="fw-semibold">${{ subtotal() }}</span></div>
-					<div class="text-muted small mb-3">Shipping and taxes calculated at checkout.</div>
-					<button class="btn btn-primary w-100" (click)="checkout()">Checkout</button>
+					<div class="d-flex justify-content-between mb-1"><span class="text-muted">Subtotal</span><span class="fw-semibold">{{ estimate().subtotal | currency:'USD':'symbol':'1.2-2' }}</span></div>
+					<div class="d-flex justify-content-between mb-1"><span class="text-muted">Discounts</span><span class="fw-semibold text-success">-{{ estimate().discount | currency:'USD':'symbol':'1.2-2' }}</span></div>
+					<div class="d-flex justify-content-between mb-1"><span class="text-muted">Shipping</span><span class="fw-semibold">{{ estimate().shipping ? (estimate().shipping | currency:'USD':'symbol':'1.2-2') : 'Free' }}</span></div>
+					<div class="d-flex justify-content-between border-top pt-2 mt-2"><span>Estimated tax</span><span class="fw-semibold">{{ estimate().tax | currency:'USD':'symbol':'1.2-2' }}</span></div>
+					<div class="d-flex justify-content-between mt-2 mb-3"><span class="fw-semibold">Estimated total</span><span class="fw-bold">{{ estimate().total | currency:'USD':'symbol':'1.2-2' }}</span></div>
+					<div class="text-muted small mb-3">Tax and shipping are estimates. Final total appears on your receipt.</div>
+					<button class="btn btn-primary w-100" (click)="checkout()">Complete order</button>
 				</div>
 			</div>
 		</div>

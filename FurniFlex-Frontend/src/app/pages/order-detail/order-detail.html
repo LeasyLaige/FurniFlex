@@ -8,9 +8,9 @@
           <div class="mb-1"><span class="text-muted">Customer:</span> {{ order.customer?.name || ('#' + (order.customer?.id || '')) }}</div>
           <div class="text-muted small">Placed: {{ order.created || 'Just now' }}</div>
         </div>
-        <div class="text-end">
-          <div class="fw-semibold">Subtotal: ${{ subtotal }}</div>
-          <div class="text-muted small">Shipping: Free</div>
+        <div class="text-end d-none d-md-block">
+          <div class="fw-semibold">Total: {{ totals.total | currency:'USD':'symbol':'1.2-2' }}</div>
+          <div class="text-muted small">Includes tax and shipping</div>
         </div>
       </div>
 
@@ -25,6 +25,34 @@
             <div class="text-end">
               <div class="fw-semibold">${{ (it.product.price || 0) * it.quantity }}</div>
               <div class="text-muted small">${{ it.product.price || 0 }} each</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-3">
+        <div class="col-12 col-md-6">
+          <div class="card border-0 bg-body-tertiary">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-1"><span class="text-muted">Subtotal</span><span class="fw-semibold">{{ totals.subtotal | currency:'USD':'symbol':'1.2-2' }}</span></div>
+              <div class="d-flex justify-content-between mb-1"><span class="text-muted">Discounts</span><span class="fw-semibold text-success">-{{ totals.discount | currency:'USD':'symbol':'1.2-2' }}</span></div>
+              <div class="d-flex justify-content-between mb-1"><span class="text-muted">Shipping</span><span class="fw-semibold">{{ totals.shipping ? (totals.shipping | currency:'USD':'symbol':'1.2-2') : 'Free' }}</span></div>
+              <div class="d-flex justify-content-between border-top pt-2 mt-2"><span>Tax</span><span class="fw-semibold">{{ totals.tax | currency:'USD':'symbol':'1.2-2' }}</span></div>
+              <div class="d-flex justify-content-between mt-2"><span class="fw-semibold">Order total</span><span class="fw-bold">{{ totals.total | currency:'USD':'symbol':'1.2-2' }}</span></div>
+              <div class="text-muted small mt-2">Tax is calculated based on your shipping address.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card border-0 bg-body-tertiary h-100">
+            <div class="card-body">
+              <div class="fw-semibold text-walnut mb-2">Delivery</div>
+              <div class="mb-1">{{ order.recipientName }}</div>
+              <div class="mb-1">{{ order.addressLine1 }}<span *ngIf="order.addressLine2">, {{ order.addressLine2 }}</span></div>
+              <div class="mb-1">{{ order.city }}, {{ order.state }} {{ order.postalCode }}</div>
+              <div class="mb-1">{{ order.country }}</div>
+              <div class="text-muted small" *ngIf="order.phone">{{ order.phone }}</div>
+              <div class="mt-2"><span class="text-muted">Method:</span> <span class="fw-semibold text-capitalize">{{ order.shippingMethod || 'standard' }}</span></div>
             </div>
           </div>
         </div>

@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,8 +26,20 @@ public class OrderData {
 
     // Switch to order items (one-to-many) so an order can hold multiple products with their own quantities
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private java.util.List<OrderItemData> items = new java.util.ArrayList<>();
+    private List<OrderItemData> items = new ArrayList<>();
     private String status;
+
+    // Shipping address and method
+    private String recipientName;
+    private String addressLine1;
+    private String addressLine2;
+    private String city;
+    private String state;
+    private String postalCode;
+    private String country;
+    private String phone;
+    private String shippingMethod; // e.g., standard | express
+    private Double shippingCost;   // computed at checkout
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)

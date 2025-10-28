@@ -1,7 +1,9 @@
 package com.suarez.serviceimpl;
 
 import com.suarez.entity.OrderData;
+import com.suarez.entity.OrderItemData;
 import com.suarez.model.Order;
+import com.suarez.model.OrderItem;
 import com.suarez.repository.OrderDataRepository;
 import com.suarez.service.OrderService;
 import org.slf4j.Logger;
@@ -33,11 +35,22 @@ public class OrderServiceImpl implements OrderService {
 
             order.setId(optional.get().getId());
             order.setCustomer(optional.get().getCustomer());
+            // Shipping fields
+            order.setRecipientName(optional.get().getRecipientName());
+            order.setAddressLine1(optional.get().getAddressLine1());
+            order.setAddressLine2(optional.get().getAddressLine2());
+            order.setCity(optional.get().getCity());
+            order.setState(optional.get().getState());
+            order.setPostalCode(optional.get().getPostalCode());
+            order.setCountry(optional.get().getCountry());
+            order.setPhone(optional.get().getPhone());
+            order.setShippingMethod(optional.get().getShippingMethod());
+            order.setShippingCost(optional.get().getShippingCost());
             // Map items
-            java.util.List<com.suarez.model.OrderItem> items = new java.util.ArrayList<>();
+            List<OrderItem> items = new ArrayList<>();
             if (optional.get().getItems() != null) {
-                for (com.suarez.entity.OrderItemData oid : optional.get().getItems()) {
-                    com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                for (OrderItemData oid : optional.get().getItems()) {
+                    OrderItem mi = new OrderItem();
                     mi.setProduct(oid.getProduct());
                     mi.setQuantity(oid.getQuantity());
                     items.add(mi);
@@ -69,10 +82,20 @@ public class OrderServiceImpl implements OrderService {
 
             order.setId(orderData.getId());
             order.setCustomer(orderData.getCustomer());
-            java.util.List<com.suarez.model.OrderItem> items = new java.util.ArrayList<>();
+            order.setRecipientName(orderData.getRecipientName());
+            order.setAddressLine1(orderData.getAddressLine1());
+            order.setAddressLine2(orderData.getAddressLine2());
+            order.setCity(orderData.getCity());
+            order.setState(orderData.getState());
+            order.setPostalCode(orderData.getPostalCode());
+            order.setCountry(orderData.getCountry());
+            order.setPhone(orderData.getPhone());
+            order.setShippingMethod(orderData.getShippingMethod());
+            order.setShippingCost(orderData.getShippingCost());
+            List<OrderItem> items = new ArrayList<>();
             if (orderData.getItems() != null) {
-                for (com.suarez.entity.OrderItemData oid : orderData.getItems()) {
-                    com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                for (OrderItemData oid : orderData.getItems()) {
+                    OrderItem mi = new OrderItem();
                     mi.setProduct(oid.getProduct());
                     mi.setQuantity(oid.getQuantity());
                     items.add(mi);
@@ -101,11 +124,22 @@ public class OrderServiceImpl implements OrderService {
         OrderData orderData = new OrderData();
         orderData.setCreated(order.getCreated());
         orderData.setCustomer(order.getCustomer());
+    // Shipping fields
+    orderData.setRecipientName(order.getRecipientName());
+    orderData.setAddressLine1(order.getAddressLine1());
+    orderData.setAddressLine2(order.getAddressLine2());
+    orderData.setCity(order.getCity());
+    orderData.setState(order.getState());
+    orderData.setPostalCode(order.getPostalCode());
+    orderData.setCountry(order.getCountry());
+    orderData.setPhone(order.getPhone());
+    orderData.setShippingMethod(order.getShippingMethod());
+    orderData.setShippingCost(order.getShippingCost());
         // Map items from model
-        java.util.List<com.suarez.entity.OrderItemData> items = new java.util.ArrayList<>();
+        List<OrderItemData> items = new ArrayList<>();
         if (order.getItems() != null) {
-            for (com.suarez.model.OrderItem mi : order.getItems()) {
-                com.suarez.entity.OrderItemData oid = new com.suarez.entity.OrderItemData();
+            for (OrderItem mi : order.getItems()) {
+                OrderItemData oid = new OrderItemData();
                 oid.setOrder(orderData);
                 oid.setProduct(mi.getProduct());
                 oid.setQuantity(mi.getQuantity());
@@ -121,10 +155,20 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setId(orderData.getId());
         newOrder.setCreated(orderData.getCreated());
         newOrder.setCustomer(orderData.getCustomer());
-        java.util.List<com.suarez.model.OrderItem> newItems = new java.util.ArrayList<>();
+    newOrder.setRecipientName(orderData.getRecipientName());
+    newOrder.setAddressLine1(orderData.getAddressLine1());
+    newOrder.setAddressLine2(orderData.getAddressLine2());
+    newOrder.setCity(orderData.getCity());
+    newOrder.setState(orderData.getState());
+    newOrder.setPostalCode(orderData.getPostalCode());
+    newOrder.setCountry(orderData.getCountry());
+    newOrder.setPhone(orderData.getPhone());
+    newOrder.setShippingMethod(orderData.getShippingMethod());
+    newOrder.setShippingCost(orderData.getShippingCost());
+        List<OrderItem> newItems = new ArrayList<>();
         if (orderData.getItems() != null) {
-            for (com.suarez.entity.OrderItemData oid : orderData.getItems()) {
-                com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+            for (OrderItemData oid : orderData.getItems()) {
+                OrderItem mi = new OrderItem();
                 mi.setProduct(oid.getProduct());
                 mi.setQuantity(oid.getQuantity());
                 newItems.add(mi);
@@ -146,11 +190,21 @@ public class OrderServiceImpl implements OrderService {
             OrderData existingOrderData = orderData.get();
             existingOrderData.setCreated(order.getCreated());
             existingOrderData.setCustomer(order.getCustomer());
+            existingOrderData.setRecipientName(order.getRecipientName());
+            existingOrderData.setAddressLine1(order.getAddressLine1());
+            existingOrderData.setAddressLine2(order.getAddressLine2());
+            existingOrderData.setCity(order.getCity());
+            existingOrderData.setState(order.getState());
+            existingOrderData.setPostalCode(order.getPostalCode());
+            existingOrderData.setCountry(order.getCountry());
+            existingOrderData.setPhone(order.getPhone());
+            existingOrderData.setShippingMethod(order.getShippingMethod());
+            existingOrderData.setShippingCost(order.getShippingCost());
             // Replace items
-            java.util.List<com.suarez.entity.OrderItemData> newItems = new java.util.ArrayList<>();
+            List<OrderItemData> newItems = new ArrayList<>();
             if (order.getItems() != null) {
-                for (com.suarez.model.OrderItem mi : order.getItems()) {
-                    com.suarez.entity.OrderItemData oid = new com.suarez.entity.OrderItemData();
+                for (OrderItem mi : order.getItems()) {
+                    OrderItemData oid = new OrderItemData();
                     oid.setOrder(existingOrderData);
                     oid.setProduct(mi.getProduct());
                     oid.setQuantity(mi.getQuantity());
@@ -166,10 +220,20 @@ public class OrderServiceImpl implements OrderService {
             updatedOrder.setId(existingOrderData.getId());
             updatedOrder.setCreated(existingOrderData.getCreated());
             updatedOrder.setCustomer(existingOrderData.getCustomer());
-            java.util.List<com.suarez.model.OrderItem> updItems = new java.util.ArrayList<>();
+            updatedOrder.setRecipientName(existingOrderData.getRecipientName());
+            updatedOrder.setAddressLine1(existingOrderData.getAddressLine1());
+            updatedOrder.setAddressLine2(existingOrderData.getAddressLine2());
+            updatedOrder.setCity(existingOrderData.getCity());
+            updatedOrder.setState(existingOrderData.getState());
+            updatedOrder.setPostalCode(existingOrderData.getPostalCode());
+            updatedOrder.setCountry(existingOrderData.getCountry());
+            updatedOrder.setPhone(existingOrderData.getPhone());
+            updatedOrder.setShippingMethod(existingOrderData.getShippingMethod());
+            updatedOrder.setShippingCost(existingOrderData.getShippingCost());
+            List<OrderItem> updItems = new ArrayList<>();
             if (existingOrderData.getItems() != null) {
-                for (com.suarez.entity.OrderItemData oid : existingOrderData.getItems()) {
-                    com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                for (OrderItemData oid : existingOrderData.getItems()) {
+                    OrderItem mi = new OrderItem();
                     mi.setProduct(oid.getProduct());
                     mi.setQuantity(oid.getQuantity());
                     updItems.add(mi);

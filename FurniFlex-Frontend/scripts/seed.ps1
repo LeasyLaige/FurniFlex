@@ -122,12 +122,12 @@ if ($productResults.Count -ge 6 -and $customerResults.Count -ge 2) {
     @{ customer = @{ id = $customerResults[0].id }; items = @(
         @{ product = @{ id = $productResults[0].id }; quantity = 1 },
         @{ product = @{ id = $productResults[1].id }; quantity = 2 }
-      ); status = 'Ordered' },
+      ); status = 'Ordered'; recipientName = $customerResults[0].name; addressLine1 = '123 Forest Blvd'; city = 'Austin'; state = 'TX'; postalCode = '73301'; country = 'United States'; phone = '555-0111'; shippingMethod = 'standard'; shippingCost = 0 },
     @{ customer = @{ id = $customerResults[1].id }; items = @(
         @{ product = @{ id = $productResults[2].id }; quantity = 1 },
         @{ product = @{ id = $productResults[3].id }; quantity = 1 },
         @{ product = @{ id = $productResults[4].id }; quantity = 3 }
-      ); status = 'Ordered' }
+      ); status = 'Ordered'; recipientName = $customerResults[1].name; addressLine1 = '45 Clay St'; city = 'Phoenix'; state = 'AZ'; postalCode = '85001'; country = 'United States'; shippingMethod = 'express'; shippingCost = 19.99 }
   )
   foreach ($o in $multiOrders) {
     try { $res = PostJson "$base/order" $o; $orderResults += $res } catch { Write-Warning $_ }

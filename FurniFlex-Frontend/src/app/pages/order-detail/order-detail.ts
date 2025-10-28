@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { OrderService } from '../../core/services/order.service';
 import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/product.model';
+import { calculateTotals, Totals } from '../../core/util/pricing';
 
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, CurrencyPipe],
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.scss'
 })
@@ -19,7 +20,7 @@ export class OrderDetailPage {
 
   order: any | null = null;
   items: Array<{ product: Product; quantity: number }>|null = null;
-  subtotal = 0;
+  totals: Totals = { subtotal: 0, discount: 0, shipping: 0, tax: 0, total: 0 };
 
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -51,7 +52,8 @@ export class OrderDetailPage {
         }));
         Promise.all(tasks).then(items => {
           this.items = items;
-          this.subtotal = items.reduce((s, i) => s + (i.product.price || 0) * i.quantity, 0);
+          const lines = items.map(i => ({ price: i.product.price || 0, quantity: i.quantity }));
+          this.totals = calculateTotals(lines);
         });
       });
     }
