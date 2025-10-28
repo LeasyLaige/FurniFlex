@@ -33,8 +33,8 @@ Write-Host 'Seeding customers...'
 $customer1 = PostJson "$base/customer" @{ name='Alex Green'; email='alex@example.com'; phone='555-1000' }
 $customer2 = PostJson "$base/customer" @{ name='Jamie Stone'; email='jamie@example.com' }
 
-Write-Host 'Seeding orders...'
-$order1 = PostJson "$base/order" @{ customer = @{ id = $customer1.id }; product = @{ id = $products[0].id }; quantity = 1; status = 'PLACED' }
-$order2 = PostJson "$base/order" @{ customer = @{ id = $customer2.id }; product = @{ id = $products[1].id }; quantity = 2; status = 'PLACED' }
+Write-Host 'Seeding orders (multi-item)...'
+$order1 = PostJson "$base/order" @{ customer = @{ id = $customer1.id }; items = @(@{ product = @{ id = $products[0].id }; quantity = 1 }, @{ product = @{ id = $products[1].id }; quantity = 2 }); status = 'Ordered' }
+$order2 = PostJson "$base/order" @{ customer = @{ id = $customer2.id }; items = @(@{ product = @{ id = $products[2].id }; quantity = 1 }, @{ product = @{ id = $products[3].id }; quantity = 1 }, @{ product = @{ id = $products[4].id }; quantity = 3 }); status = 'Ordered' }
 
 Write-Host 'Done.' -ForegroundColor Green

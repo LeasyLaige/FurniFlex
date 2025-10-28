@@ -1,17 +1,22 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgFor } from '@angular/common';
+import { ProductService } from '../../core/services/product.service';
+import { Product } from '../../core/models/product.model';
+import { ProductCarousel } from '../product-carousel/product-carousel';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, NgFor],
+  imports: [RouterLink, NgFor, ProductCarousel, RevealDirective],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
 export class Home implements OnInit, OnDestroy {
+  private productsSvc = inject(ProductService);
   rooms = [
     { name: 'Living Room', img: 'assets/home/rooms/living-room.jpg' },
     { name: 'Bedroom', img: 'assets/home/rooms/bedroom.jpg' },
@@ -44,6 +49,14 @@ export class Home implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       this.heroTimer = setInterval(() => this.nextHero(), 6000);
     }
+
+    // Load products to showcase
+    this.productsSvc.list().subscribe(all => {
+      const p = all || [];
+      // Lightweight picks
+      this.trending = p.slice(0, 12);
+      this.living = p.filter(x => /sofa|sectional|armchair|coffee|living/i.test(x.type || '')).slice(0, 12);
+    });
   }
 
   ngOnDestroy(): void {
@@ -53,4 +66,8 @@ export class Home implements OnInit, OnDestroy {
   goHero(i: number) { this.heroIndex = (i + this.heroImages.length) % this.heroImages.length; }
   nextHero() { this.goHero(this.heroIndex + 1); }
   prevHero() { this.goHero(this.heroIndex - 1); }
+
+  // Showcase data
+  trending: Product[] = [];
+  living: Product[] = [];
 }

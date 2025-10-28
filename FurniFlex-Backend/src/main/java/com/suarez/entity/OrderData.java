@@ -22,11 +22,9 @@ public class OrderData {
     @JoinColumn(name = "customer_id")
     private CustomerData customer;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private ProductData product;
-
-    private int quantity;
+    // Switch to order items (one-to-many) so an order can hold multiple products with their own quantities
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private java.util.List<OrderItemData> items = new java.util.ArrayList<>();
     private String status;
 
     @UpdateTimestamp

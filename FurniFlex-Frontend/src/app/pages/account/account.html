@@ -65,14 +65,14 @@
 
 	  <div class="card border-0 shadow-sm">
 		<div class="card-body">
-		  <h2 class="h6 text-walnut mb-3">Orders</h2>
+					<h2 class="h6 text-walnut mb-3">Orders</h2>
 		  <div *ngIf="orders().length; else noOrders">
 			<div class="list-group list-group-flush">
 			  <div class="list-group-item" *ngFor="let o of orders()">
 				<div class="d-flex justify-content-between">
 				  <div>
-					<div class="fw-semibold">#{{ o.id }} · {{ o.status || 'Ordered' }}</div>
-					<div class="text-muted small">{{ o.product?.name || ('Product #' + (o.product?.id || '')) }} · Qty {{ o.quantity }}</div>
+										<div class="fw-semibold">#{{ o.id }} · {{ o.status || 'Ordered' }}</div>
+										<div class="text-muted small">{{ itemCount(o) }} item(s)</div>
 				  </div>
 									<div><a class="badge text-bg-light text-decoration-none" [routerLink]="['/order', o.id]">Receipt</a></div>
 				</div>

@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrderById(int id) {
         logger.info(" Getting order with id: " + id);
         Order order = null;
-        Optional<OrderData> optional = orderDataRepository.findById(id);
+    Optional<OrderData> optional = orderDataRepository.findById(id);
 
         if(optional.isPresent()) {
             logger.info(" Is present >>");
@@ -33,8 +33,17 @@ public class OrderServiceImpl implements OrderService {
 
             order.setId(optional.get().getId());
             order.setCustomer(optional.get().getCustomer());
-            order.setProduct(optional.get().getProduct());
-            order.setQuantity(optional.get().getQuantity());
+            // Map items
+            java.util.List<com.suarez.model.OrderItem> items = new java.util.ArrayList<>();
+            if (optional.get().getItems() != null) {
+                for (com.suarez.entity.OrderItemData oid : optional.get().getItems()) {
+                    com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                    mi.setProduct(oid.getProduct());
+                    mi.setQuantity(oid.getQuantity());
+                    items.add(mi);
+                }
+            }
+            order.setItems(items);
             order.setCreated(optional.get().getCreated());
             order.setLastUpdated(optional.get().getLastUpdated());
             order.setStatus(optional.get().getStatus());
@@ -60,8 +69,16 @@ public class OrderServiceImpl implements OrderService {
 
             order.setId(orderData.getId());
             order.setCustomer(orderData.getCustomer());
-            order.setProduct(orderData.getProduct());
-            order.setQuantity(orderData.getQuantity());
+            java.util.List<com.suarez.model.OrderItem> items = new java.util.ArrayList<>();
+            if (orderData.getItems() != null) {
+                for (com.suarez.entity.OrderItemData oid : orderData.getItems()) {
+                    com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                    mi.setProduct(oid.getProduct());
+                    mi.setQuantity(oid.getQuantity());
+                    items.add(mi);
+                }
+            }
+            order.setItems(items);
             order.setLastUpdated(orderData.getLastUpdated());
             order.setCreated(orderData.getCreated());
             order.setStatus(orderData.getStatus());
@@ -80,12 +97,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(Order order) {
-        logger.info("Creating order with customer: " + order.getCustomer() + " and product: " + order.getProduct());
+        logger.info("Creating order with customer: " + order.getCustomer());
         OrderData orderData = new OrderData();
         orderData.setCreated(order.getCreated());
-        orderData.setCustomer(order.getCustomer()); // To be implemented
-        orderData.setProduct(order.getProduct()); // To be implemented
-        orderData.setQuantity(order.getQuantity());
+        orderData.setCustomer(order.getCustomer());
+        // Map items from model
+        java.util.List<com.suarez.entity.OrderItemData> items = new java.util.ArrayList<>();
+        if (order.getItems() != null) {
+            for (com.suarez.model.OrderItem mi : order.getItems()) {
+                com.suarez.entity.OrderItemData oid = new com.suarez.entity.OrderItemData();
+                oid.setOrder(orderData);
+                oid.setProduct(mi.getProduct());
+                oid.setQuantity(mi.getQuantity());
+                items.add(oid);
+            }
+        }
+        orderData.setItems(items);
         orderData.setStatus(order.getStatus());
         orderData = orderDataRepository.save(orderData);
 
@@ -94,8 +121,16 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setId(orderData.getId());
         newOrder.setCreated(orderData.getCreated());
         newOrder.setCustomer(orderData.getCustomer());
-        newOrder.setProduct(orderData.getProduct());
-        newOrder.setQuantity(orderData.getQuantity());
+        java.util.List<com.suarez.model.OrderItem> newItems = new java.util.ArrayList<>();
+        if (orderData.getItems() != null) {
+            for (com.suarez.entity.OrderItemData oid : orderData.getItems()) {
+                com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                mi.setProduct(oid.getProduct());
+                mi.setQuantity(oid.getQuantity());
+                newItems.add(mi);
+            }
+        }
+        newOrder.setItems(newItems);
         newOrder.setStatus(orderData.getStatus());
 
         return newOrder;
@@ -110,9 +145,20 @@ public class OrderServiceImpl implements OrderService {
         if(orderData.isPresent()) {
             OrderData existingOrderData = orderData.get();
             existingOrderData.setCreated(order.getCreated());
-            existingOrderData.setCustomer(order.getCustomer()); // To be implemented
-            existingOrderData.setProduct(order.getProduct()); // To be implemented
-            existingOrderData.setQuantity(order.getQuantity());
+            existingOrderData.setCustomer(order.getCustomer());
+            // Replace items
+            java.util.List<com.suarez.entity.OrderItemData> newItems = new java.util.ArrayList<>();
+            if (order.getItems() != null) {
+                for (com.suarez.model.OrderItem mi : order.getItems()) {
+                    com.suarez.entity.OrderItemData oid = new com.suarez.entity.OrderItemData();
+                    oid.setOrder(existingOrderData);
+                    oid.setProduct(mi.getProduct());
+                    oid.setQuantity(mi.getQuantity());
+                    newItems.add(oid);
+                }
+            }
+            existingOrderData.getItems().clear();
+            existingOrderData.getItems().addAll(newItems);
             existingOrderData.setStatus(order.getStatus());
             existingOrderData = orderDataRepository.save(existingOrderData);
 
@@ -120,8 +166,16 @@ public class OrderServiceImpl implements OrderService {
             updatedOrder.setId(existingOrderData.getId());
             updatedOrder.setCreated(existingOrderData.getCreated());
             updatedOrder.setCustomer(existingOrderData.getCustomer());
-            updatedOrder.setProduct(existingOrderData.getProduct());
-            updatedOrder.setQuantity(existingOrderData.getQuantity());
+            java.util.List<com.suarez.model.OrderItem> updItems = new java.util.ArrayList<>();
+            if (existingOrderData.getItems() != null) {
+                for (com.suarez.entity.OrderItemData oid : existingOrderData.getItems()) {
+                    com.suarez.model.OrderItem mi = new com.suarez.model.OrderItem();
+                    mi.setProduct(oid.getProduct());
+                    mi.setQuantity(oid.getQuantity());
+                    updItems.add(mi);
+                }
+            }
+            updatedOrder.setItems(updItems);
             updatedOrder.setStatus(existingOrderData.getStatus());
         } else {
             logger.warn("Order with id: " + id + " not found");
@@ -132,7 +186,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(int id) {
-        Order order = null;
         logger.info("Deleting order with id: " + id);
         Optional<OrderData> orderData = orderDataRepository.findById(id);
 

@@ -18,6 +18,7 @@ export class Header {
   // UI state
   isNavOpen = signal(false);
   isCategoriesOpen = signal(false);
+  isAccountOpen = signal(false);
 
   constructor(
     private cart: CartService,
@@ -46,6 +47,10 @@ export class Header {
 
   toggleCategories() {
     this.isCategoriesOpen.update((v) => !v);
+  }
+
+  toggleAccount() {
+    this.isAccountOpen.update(v => !v);
   }
 
   submitSearch() {

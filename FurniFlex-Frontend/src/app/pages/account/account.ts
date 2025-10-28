@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -11,7 +11,7 @@ import { AccountService } from '../../core/services/account.service';
   templateUrl: './account.html',
   styleUrl: './account.scss'
 })
-export class AccountPage {
+export class AccountPage implements OnInit {
   private acct = inject(AccountService);
   user = computed(() => this.acct.current());
   orders = signal<any[]>([]);
@@ -50,5 +50,19 @@ export class AccountPage {
 
   loadOrders() {
     this.acct.myOrders().subscribe(list => this.orders.set(list));
+  }
+
+  // Compute item count across legacy shapes and new items[]
+  itemCount(o: any): number {
+    if (!o) return 0;
+    if (Array.isArray(o.items) && o.items.length) return o.items.length;
+    if (Array.isArray(o.product)) return o.product.length;
+    if (Array.isArray(o.productIds)) return o.productIds.length;
+    if (o.productId || o.product) return 1;
+    return 0;
+  }
+
+  ngOnInit(): void {
+    if (this.user()) this.loadOrders();
   }
 }

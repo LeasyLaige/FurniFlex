@@ -1,0 +1,29 @@
+<section class="carousel-section" *ngIf="products?.length">
+  <div class="d-flex justify-content-between align-items-end mb-2">
+    <div>
+      <h2 class="h4 text-walnut mb-1">{{ title }}</h2>
+      <div class="text-muted small" *ngIf="subtitle">{{ subtitle }}</div>
+    </div>
+    <a *ngIf="cta" class="link-chevron" [routerLink]="cta.link">{{ cta.text }}</a>
+  </div>
+
+  <div class="snap-container position-relative">
+    <div class="snap-scroll" tabindex="0" #scroller>
+      <div class="snap-item" *ngFor="let p of products">
+        <div class="card product-card border-0 shadow-sm h-100">
+          <div class="ratio ratio-4x3 image-wrap rounded-top bg-body-tertiary position-relative">
+            <img [src]="p.image" [alt]="p.name" class="w-100 h-100 object-fit-cover">
+            <span *ngIf="available(p) === 0" class="stock-badge badge text-bg-secondary position-absolute">Out of stock</span>
+            <span *ngIf="low(p)" class="stock-badge badge text-bg-warning position-absolute">Low stock</span>
+          </div>
+          <div class="card-body">
+            <div class="fw-semibold text-walnut">{{ p.name }}</div>
+            <div class="text-muted small">${{ p.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="nav prev" type="button" (click)="scrollLeft()">‹</button>
+    <button class="nav next" type="button" (click)="scrollRight()">›</button>
+  </div>
+</section>
